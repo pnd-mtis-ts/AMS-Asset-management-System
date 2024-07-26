@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "AMS",
+    "slug": "AMS",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/TS.png",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      "expo-secure-store"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "c9aed2a6-80b5-450b-952d-1c0d1cde73fe"
+      }
+    },
+    "android": {
+      "package": "com.sadewaammar21.AMS"
+    }
+  },
+  "assetBundlePatterns": [
+    "**/*"
+  ],
+  "plugins": [
+    [
+      "expo-camera",
+      {
+        "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+        "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+        "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data.",
+        "recordAudioAndroid": true
+      }
+    ]
+  ],
+  "ios": {
+    "supportsTablet": true,
+    "config": {
+      "usesNonExemptEncryption": false
+    },
+    "NSAppTransportSecurity": {
+      "NSAllowsArbitraryLoads": true
+    }
+  },
+  "android": {
+    "permissions": [
+      "INTERNET"
+    ],
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/TSPM.png",
+      "backgroundColor": "#ffffff"
+    }
+  },
+  "web": {
+    "favicon": "./assets/favicon.png",
+    "cors": true,
+    "proxy": {
+      "/api": {
+        "target": "http://192.168.35.80:5000",
+        "secure": false
+      }
+    }
+  }
+}

@@ -146,7 +146,7 @@ const RoleList = () => {
     if (selectedRole) {
       try {
         const promises = [];
-
+ 
         if (addedPermissions.length > 0) {
           promises.push(
             axiosInstance.post(
@@ -165,6 +165,7 @@ const RoleList = () => {
             axiosInstance.delete(
               `${apiUrl}/role-permissions`,
               {
+                ...getToken(),
                 data: {
                   roleId: selectedRole,
                   permissionId: removedPermissions,

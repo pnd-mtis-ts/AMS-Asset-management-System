@@ -11,6 +11,7 @@ const FormAddRelacation = () => {
   const {id} = useParams();
   const [asset, setAsset] = useState([]);
   const [location, setLocation] = useState([]);
+  const [eb, setEb] = useState([]);
   const [header, setHeader] = useState([]);
   const [item, setItem] = useState({
     FixedIDNo: 0,
@@ -43,9 +44,15 @@ const FormAddRelacation = () => {
     setLocation(res.data);
   };
 
+  const getEb = async () => {
+    const res = await axiosInstance.get(`${apiUrl}/entitas-bisnis`, getToken());
+    setEb(res.data);
+  }
+
   useEffect(() => {
     getAsset(search);
     getLocation();
+    getEb();
     console.log(asset);
     if(id){
       console.log(id)
@@ -109,6 +116,15 @@ const FormAddRelacation = () => {
     console.log(item);
   };
 
+  const handleSelectEB = (name, value) => {
+    setHeader((prev) => {
+      return { ...prev, [name]: value };
+    });
+    // setSearch("");
+    setIsOpen(false);
+    console.log(item);
+  };
+
   const handleSelectLoc = (option) => {
     setItem({ FixedIDNo: option });
     setSearch("");
@@ -136,21 +152,6 @@ const FormAddRelacation = () => {
       }
     }
   };
-
-  const headerFields = [
-    { label: "Description", name: "TransDesc", value: header.TransDesc },
-    { label: "Entitas Bisnis", name: "IDNoEB", value: header.IDNoEB },
-  ];
-
-  const itemFields = [
-    { label: "ID Asset", name: "FixedIDNo", value: item.FixedIDNo },
-    { label: "New Location", name: "NewLocation", value: item.NewLocation },
-    {
-      label: "New Employee",
-      name: "NewEmployeeResponsible",
-      value: item.NewEmployeeResponsible,
-    },
-  ];
 
   const renderForm = (fieldName, value, onChange) => {
     const inputType = typeof value === "number" ? "number" : "text";
@@ -184,12 +185,18 @@ const FormAddRelacation = () => {
         <h2 className="bold-20 mb-3">Relocate</h2>
       </div>
       <form onSubmit={handleSubmit}>
-        {/* <h1>Header</h1> */}
         <div className="px-3">
-          {headerFields &&
-            headerFields.map((data) =>
-              renderForm(data.name, data.value, handleHeaderChange)
-            )}
+          {renderForm("TransDesc", header.TransDesc, handleHeaderChange)}
+          <DropdownComp
+                label="Select New Entitas Bisnis"
+                name="IDNoEB"
+                options={eb}
+                selectedOption={header.IDNoEB}
+                onOptionSelect={handleSelectEB}
+                placeholder="Select Entitas Bisnis"
+                displayKey="EBName"
+                valueKey="IDNo"
+              />
         </div>
         <div className="p-3 border rounded-md my-3">
           {items.length > 0 && (
